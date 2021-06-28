@@ -29,8 +29,8 @@ namespace Main
 		}
 
 		// detect which executable's patches to apply
-		DWORD dataStrData = Utils::Hook::Get<DWORD>(0x881CAC);
-		if (dataStrData == 0x62616E55)
+		DWORD dataStrData = Utils::Hook::Get<DWORD>(0x59B69C);
+		if (dataStrData == 0x6C6C6143)
 			MP::PatchT4();
 		else
 			SP::PatchT4();
@@ -81,8 +81,8 @@ bool APIENTRY DllMain(HMODULE, DWORD dwReason, LPVOID)
 	{
 		DWORD textSegData = Utils::Hook::Get<DWORD>(0x401000);
 
-		// detect for all executables to hook into
-		//if (textSegData == 0x9EF490B8 || textSegData == 0x83EC8B55)
+		// detection for all executables to hook into
+		if (textSegData == 0x0400EC81)
 			Main::SetSafeInit();
 	}
 	return true;
