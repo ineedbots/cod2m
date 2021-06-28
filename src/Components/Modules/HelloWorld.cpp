@@ -5,6 +5,7 @@ namespace Components
 {
 	HelloWorld::HelloWorld()
 	{
+		MessageBoxA(nullptr, "MP", "DEBUG", 0);
 	}
 
 	HelloWorld::~HelloWorld()
