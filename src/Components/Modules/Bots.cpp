@@ -12,10 +12,29 @@ namespace Components
 		return sprintf(buffer, ConnectString, botName, protocol);
 	}
 
+	void Bots::SV_BotUserMove_Func(Game::client_t*)
+	{
+
+	}
+
+	__declspec(naked) void Bots::SV_BotUserMove_Stub()
+	{
+		__asm
+		{
+			push esi;
+			call SV_BotUserMove_Func;
+			add esp, 4;
+			retn;
+		}
+	}
+
 	Bots::Bots()
 	{
 		// intercept the sprintf when creating the bot connect string 
 		Utils::Hook(0x45655B, BuildConnectString, HOOK_CALL).install()->quick();
+
+		// hook bot movement
+		Utils::Hook(0x45C210, SV_BotUserMove_Stub, HOOK_JUMP).install()->quick();
 	}
 
 	Bots::~Bots()
