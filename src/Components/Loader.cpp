@@ -1,5 +1,6 @@
 #include "STDInclude.hpp"
 
+#include "Modules/Bots.hpp"
 #include "Modules/Flags.hpp"
 #include "Modules/HelloWorld.hpp"
 #include "Modules/Logger.hpp"
@@ -37,6 +38,7 @@ namespace Components
 		Loader::Register(new Flags());
 		Loader::Register(new HelloWorld());
 		Loader::Register(new Logger());
+		Loader::Register(new Bots());
 
 		Loader::Pregame = false;
 	}
