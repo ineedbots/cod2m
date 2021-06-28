@@ -2,6 +2,32 @@
 
 namespace Game
 {
+	clientStatic_t* cls;
+	serverStatic_t* svs;
+	server_t* sv;
+
+	scrCompilePub_t* gScrCompilePub;
+	scrVarPub_t* scrVarPub;
+	scrVmPub_t* scrVmPub;
+
+	cgs_t* cgsArray;
+	cg_t* cgArray;
+
+	centity_s* cg_entitiesArray;
+
+	WeaponDef_t** BG_WeaponNames;
+
+	gentity_t* g_entities;
+	gclient_t* g_clients;
+
+	bgs_s* level_bgs;
+
+	level_locals_t* level;
+
+	stringIndex_t* scr_const;
+
+	bgs_s** bgs_ptr;
+		
 	void Init(GAMEEXE)
 	{
 		cls = ASSIGN(clientStatic_t*, 0x68A408);
@@ -29,6 +55,18 @@ namespace Game
 		scr_const = ASSIGN(stringIndex_t*, 0x1943920);
 
 		bgs_ptr = ASSIGN(bgs_s**, 0x19A1C78);
+	}
+
+	void SV_ClientThink(Game::usercmd_s* cmd, Game::client_t* client)
+	{
+		int func_loc = 0x456010;
+
+		__asm
+		{
+			mov ecx, client;
+			mov eax, cmd;
+			call func_loc;
+		}
 	}
 }
 

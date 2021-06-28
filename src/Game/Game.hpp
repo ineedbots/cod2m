@@ -7,29 +7,32 @@ namespace Game
 {
 	void Init(GAMEEXE);
 
-	static clientStatic_t* cls;
-	static serverStatic_t* svs;
-	static server_t* sv;
+	extern clientStatic_t* cls;
+	extern serverStatic_t* svs;
+	extern server_t* sv;
 
-	static scrCompilePub_t* gScrCompilePub;
-	static scrVarPub_t* scrVarPub;
-	static scrVmPub_t* scrVmPub;
+	extern scrCompilePub_t* gScrCompilePub;
+	extern scrVarPub_t* scrVarPub;
+	extern scrVmPub_t* scrVmPub;
 
-	static cgs_t* cgsArray;
-	static cg_t* cgArray;
+	extern cgs_t* cgsArray;
+	extern cg_t* cgArray;
 
-	static centity_s* cg_entitiesArray;
+	extern centity_s* cg_entitiesArray;
 
-	static WeaponDef_t** BG_WeaponNames;
+	extern WeaponDef_t** BG_WeaponNames;
 
-	static gentity_t* g_entities;
-	static gclient_t* g_clients;
+	extern gentity_t* g_entities;
+	extern gclient_t* g_clients;
 
-	static bgs_s* level_bgs;
+	extern bgs_s* level_bgs;
 
-	static level_locals_t* level;
+	extern level_locals_t* level;
 
-	static stringIndex_t* scr_const;
+	extern stringIndex_t* scr_const;
 
-	static bgs_s** bgs_ptr;
+	extern bgs_s** bgs_ptr;
+
+
+	void SV_ClientThink(Game::usercmd_s*, Game::client_t*);
 }

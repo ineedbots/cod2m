@@ -12,9 +12,15 @@ namespace Components
 		return sprintf(buffer, ConnectString, botName, protocol);
 	}
 
-	void Bots::SV_BotUserMove_Func(Game::client_t*)
+	void Bots::SV_BotUserMove_Func(Game::client_t* cl)
 	{
+		int cl_num = cl - Game::svs->clients;
 
+		Game::usercmd_t cmd = {};
+		cmd.serverTime = Game::svs->time;
+
+		cl->deltaMessage = cl->netchan.outgoingSequence - 1;
+		Game::SV_ClientThink(&cmd, cl);
 	}
 
 	__declspec(naked) void Bots::SV_BotUserMove_Stub()
@@ -35,6 +41,9 @@ namespace Components
 
 		// hook bot movement
 		Utils::Hook(0x45C210, SV_BotUserMove_Stub, HOOK_JUMP).install()->quick();
+
+		// stop the ping spam
+		Utils::Hook::Nop(0x45BF59, 5);
 	}
 
 	Bots::~Bots()

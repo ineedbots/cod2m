@@ -5,7 +5,7 @@ namespace Components
 {
 	HelloWorld::HelloWorld()
 	{
-		MessageBoxA(nullptr, "MP", "DEBUG", 0);
+		//MessageBoxA(nullptr, Utils::String::VA("%d", Game::svs), "DEBUG", 0);
 	}
 
 	HelloWorld::~HelloWorld()
