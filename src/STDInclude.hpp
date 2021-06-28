@@ -84,7 +84,6 @@ template <size_t S> class Sizer { };
 #include "Utils/Hooking.hpp"
 
 #include "Game/MP.hpp"
-#include "Game/SP.hpp"
 
 // Libraries
 #pragma comment(lib, "Winmm.lib")
