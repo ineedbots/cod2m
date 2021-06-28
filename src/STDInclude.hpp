@@ -24,6 +24,7 @@
 #include <Psapi.h>
 #include <tlhelp32.h>
 #include <Shlwapi.h>
+#include <assert.h>
 
 #pragma warning(push)
 #pragma warning(disable: 4091)
@@ -81,9 +82,19 @@ template <size_t S> class Sizer { };
 
 #pragma warning(pop)
 
-#include "Utils/Hooking.hpp"
+enum GAMEEXE
+{
+	MP
+};
 
-#include "Game/MP.hpp"
+#include "Utils/Hooking.hpp"
+#include "Utils/Memory.hpp"
+#include "Utils/String.hpp"
+
+#include "Game/Structs.hpp"
+#include "Game/Game.hpp"
+
+#include "Components/Loader.hpp"
 
 // Libraries
 #pragma comment(lib, "Winmm.lib")

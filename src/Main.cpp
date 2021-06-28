@@ -31,7 +31,7 @@ namespace Main
 		// detect which executable's patches to apply
 		DWORD dataStrData = Utils::Hook::Get<DWORD>(0x59B69C);
 		if (dataStrData == 0x6C6C6143)
-			MP::PatchT4();
+			Components::Loader::Initialize(GAMEEXE::MP);
 
 		hModule = GetModuleHandle(NULL);
 		PIMAGE_DOS_HEADER header = (PIMAGE_DOS_HEADER)hModule;
