@@ -16,6 +16,13 @@ namespace Components
 	{
 		int cl_num = cl - Game::svs->clients;
 
+		if (cl->state < Game::CS_ACTIVE)
+		{
+			Game::SV_DropClient(cl, "EXE_DISCONNECTED");
+			cl->state = Game::CS_FREE;
+			return;
+		}
+
 		Game::usercmd_t cmd = {};
 		cmd.serverTime = Game::svs->time;
 

@@ -35,4 +35,5 @@ namespace Game
 
 
 	void SV_ClientThink(Game::usercmd_s*, Game::client_t*);
+	void SV_DropClient(Game::client_t*, const char*);
 }

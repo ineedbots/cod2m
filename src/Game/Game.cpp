@@ -68,5 +68,18 @@ namespace Game
 			call func_loc;
 		}
 	}
+
+	void SV_DropClient(Game::client_t* client, const char* reason)
+	{
+		int func_loc = 0x454750;
+
+		__asm
+		{
+			push reason;
+			mov eax, client;
+			call func_loc;
+			add esp, 4;
+		}
+	}
 }
 
