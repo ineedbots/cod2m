@@ -58,9 +58,12 @@ namespace Components
 		}
 	}
 
-	void Bots::PlayerCmd_setSpawnWeapon_Func(Game::gentity_t* ent, int wpIdx)
+	void __cdecl Bots::PlayerCmd_setSpawnWeapon_Func(Game::gentity_t* ent, int wpIdx)
 	{
-
+		if (Game::svs->clients[ent->s.number].bot)
+		{
+			
+		}
 	}
 
 	__declspec(naked) void Bots::PlayerCmd_setSpawnWeapon_Stub()
@@ -70,7 +73,8 @@ namespace Components
 			push edx;
 			push esi;
 			call PlayerCmd_setSpawnWeapon_Func;
-			add esp, 8;
+			add esp, 4;
+			pop edx; // __cdecl reqires edx be caller saved
 
 			// go back
 			mov     eax, [esi + 0x158];
