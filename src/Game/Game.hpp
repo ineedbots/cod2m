@@ -6,6 +6,7 @@
 namespace Game
 {
 	void Init(GAMEEXE);
+	bool IsDedicated();
 
 	extern clientStatic_t* cls;
 	extern serverStatic_t* svs;
@@ -41,6 +42,9 @@ namespace Game
 
 	typedef void (G_LoadStructs_t)();
 	extern G_LoadStructs_t* G_LoadStructs;
+
+	typedef int (Sys_Milliseconds_t)();
+	extern Sys_Milliseconds_t* Sys_Milliseconds;
 
 	extern unsigned int Scr_GetFunctionHandle(char*, const char*);
 	extern __int16 Scr_ExecThread(int);

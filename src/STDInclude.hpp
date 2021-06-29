@@ -90,6 +90,8 @@ enum GAMEEXE
 #include "Utils/Hooking.hpp"
 #include "Utils/Memory.hpp"
 #include "Utils/String.hpp"
+#include "Utils/Time.hpp"
+#include "Utils/Utils.hpp"
 
 #include "Game/Structs.hpp"
 #include "Game/Game.hpp"

@@ -33,6 +33,12 @@ namespace Game
 	Player_GetMethod_t* Player_GetMethod;
 	GScr_LoadGameTypeScript_t* GScr_LoadGameTypeScript;
 	G_LoadStructs_t* G_LoadStructs;
+	Sys_Milliseconds_t* Sys_Milliseconds;
+
+	bool IsDedicated()
+	{
+		return false;
+	}
 		
 	void Init(GAMEEXE)
 	{
@@ -41,6 +47,7 @@ namespace Game
 		Scr_LoadScript = ASSIGN(Scr_LoadScript_t*, 0x474D80);
 		GScr_LoadGameTypeScript = ASSIGN(GScr_LoadGameTypeScript_t*, 0x503F90);
 		G_LoadStructs = ASSIGN(G_LoadStructs_t*, 0x5118A0);
+		Sys_Milliseconds = ASSIGN(Sys_Milliseconds_t*, 0x435200);
 
 
 		cls = ASSIGN(clientStatic_t*, 0x68A408);
