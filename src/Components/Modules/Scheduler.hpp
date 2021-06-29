@@ -21,8 +21,6 @@ namespace Components
 		static void OnFrameAsync(Utils::Slot<Callback> callback);
 		static void OnceAsync(Utils::Slot<Callback> callback);
 
-		static void FrameHandler();
-
 	private:
 		class DelayedSlot
 		{
@@ -49,6 +47,10 @@ namespace Components
 		static void ReadyHandler();
 		static void DelaySignal();
 
-		static void ShutdownStub(int num);
+		static void ShutdownStub(const char*);
+
+		static void GameFrameStub();
+
+		static void FrameHandler(bool = 0);
 	};
 }

@@ -34,6 +34,10 @@ namespace Game
 	GScr_LoadGameTypeScript_t* GScr_LoadGameTypeScript;
 	G_LoadStructs_t* G_LoadStructs;
 	Sys_Milliseconds_t* Sys_Milliseconds;
+	Com_Printf_t* Com_Printf;
+	Com_DedicatedModified_t* Com_DedicatedModified;
+
+	char* isDvarSystemActive;
 
 	bool IsDedicated()
 	{
@@ -48,7 +52,11 @@ namespace Game
 		GScr_LoadGameTypeScript = ASSIGN(GScr_LoadGameTypeScript_t*, 0x503F90);
 		G_LoadStructs = ASSIGN(G_LoadStructs_t*, 0x5118A0);
 		Sys_Milliseconds = ASSIGN(Sys_Milliseconds_t*, 0x435200);
+		Com_Printf = ASSIGN(Com_Printf_t*, 0x431EE0);
+		Com_DedicatedModified = ASSIGN(Com_DedicatedModified_t*, 0x434DC0);
 
+
+		isDvarSystemActive = ASSIGN(char*, 0xC5C5C8);
 
 		cls = ASSIGN(clientStatic_t*, 0x68A408);
 		svs = ASSIGN(serverStatic_t*, 0xD35700);

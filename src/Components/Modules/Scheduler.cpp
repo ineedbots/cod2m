@@ -43,7 +43,7 @@ namespace Components
 
 	void Scheduler::ReadyHandler()
 	{
-		if (!false)
+		if (!*Game::isDvarSystemActive)
 		{
 			Scheduler::Once(Scheduler::ReadyHandler);
 		}
@@ -55,7 +55,7 @@ namespace Components
 		}
 	}
 
-	void Scheduler::FrameHandler()
+	void Scheduler::FrameHandler([[maybe_unused]]bool isRenderer)
 	{
 		Scheduler::DelaySignal();
 		Scheduler::FrameSignal();
@@ -95,10 +95,11 @@ namespace Components
 		signal();
 	}
 
-	void Scheduler::ShutdownStub(int num)
+	void Scheduler::ShutdownStub(const char* str)
 	{
 		Scheduler::ShutdownSignal();
-		//Utils::Hook::Call<void(int)>(0x46B370)(num);
+
+		Game::Com_Printf(str);
 	}
 
 	void Scheduler::OnFrameAsync(Utils::Slot<Scheduler::Callback> callback)
@@ -111,13 +112,20 @@ namespace Components
 		Scheduler::AsyncFrameOnceSignal.connect(callback);
 	}
 
+	void Scheduler::GameFrameStub()
+	{
+		FrameHandler();
+
+		Game::Com_DedicatedModified();
+	}
+
 	Scheduler::Scheduler()
 	{
 		Scheduler::ReadyPassed = false;
 		Scheduler::Once(Scheduler::ReadyHandler);
 
-		// hook frames,
-		//Utils::Hook(0x4D697A, Scheduler::ShutdownStub, HOOK_CALL).install()->quick();
+		Utils::Hook(0x4326C5, Scheduler::ShutdownStub, HOOK_CALL).install()->quick();
+		Utils::Hook(0x43503D, Scheduler::GameFrameStub, HOOK_CALL).install()->quick();
 
 		if (!Loader::IsPerformingUnitTests())
 		{

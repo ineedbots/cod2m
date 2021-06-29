@@ -8,6 +8,8 @@ namespace Game
 	void Init(GAMEEXE);
 	bool IsDedicated();
 
+	extern char* isDvarSystemActive;
+
 	extern clientStatic_t* cls;
 	extern serverStatic_t* svs;
 	extern server_t* sv;
@@ -45,6 +47,12 @@ namespace Game
 
 	typedef int (Sys_Milliseconds_t)();
 	extern Sys_Milliseconds_t* Sys_Milliseconds;
+	
+	typedef void (Com_DedicatedModified_t)();
+	extern Com_DedicatedModified_t* Com_DedicatedModified;
+
+	typedef void(Com_Printf_t)(const char *, ...);
+	extern Com_Printf_t* Com_Printf;
 
 	extern unsigned int Scr_GetFunctionHandle(char*, const char*);
 	extern __int16 Scr_ExecThread(int);
