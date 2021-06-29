@@ -36,6 +36,8 @@ namespace Game
 	Sys_Milliseconds_t* Sys_Milliseconds;
 	Com_Printf_t* Com_Printf;
 	Com_DedicatedModified_t* Com_DedicatedModified;
+	Dvar_RegisterBool_t* Dvar_RegisterBool;
+
 
 	char* isDvarSystemActive;
 
@@ -54,6 +56,7 @@ namespace Game
 		Sys_Milliseconds = ASSIGN(Sys_Milliseconds_t*, 0x435200);
 		Com_Printf = ASSIGN(Com_Printf_t*, 0x431EE0);
 		Com_DedicatedModified = ASSIGN(Com_DedicatedModified_t*, 0x434DC0);
+		Dvar_RegisterBool = ASSIGN(Dvar_RegisterBool_t*, 0x438040);
 
 
 		isDvarSystemActive = ASSIGN(char*, 0xC5C5C8);
@@ -163,6 +166,39 @@ namespace Game
 			call func_loc;
 			add esp, 4;
 		}
+	}
+
+	void CM_Trace(float* a1, float* a2, float* a3, int a4, float* a5, int a6, int a7)
+	{
+		int func_loc = 0x41D120;
+
+		__asm
+		{
+			push a7;
+			push a6;
+			push a5;
+			push a4;
+			mov ecx, a3;
+			mov edx, a2;
+			mov eax, a1;
+			call func_loc;
+			add esp, 0x10;
+		}
+	}
+
+	int StuckInClient(Game::gentity_t* ent)
+	{
+		int func_loc = 0x5009F0;
+		int answer;
+
+		__asm
+		{
+			mov eax, ent;
+			call func_loc;
+			mov answer, eax;
+		}
+
+		return answer;
 	}
 }
 

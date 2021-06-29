@@ -54,7 +54,10 @@ namespace Game
 	typedef void(Com_Printf_t)(const char *, ...);
 	extern Com_Printf_t* Com_Printf;
 
-	extern unsigned int Scr_GetFunctionHandle(char*, const char*);
+	typedef cvar_t*(Dvar_RegisterBool_t)(const char *, int, int);
+	extern Dvar_RegisterBool_t* Dvar_RegisterBool;
+
+	extern unsigned int Scr_GetFunctionHandle(const char*, const char*);
 	extern __int16 Scr_ExecThread(int);
 	extern void RemoveRefToObject(int);
 	
@@ -67,4 +70,7 @@ namespace Game
 	extern void G_SelectWeaponIndex(int, int);
 	extern void SV_ClientThink(Game::usercmd_s*, Game::client_t*);
 	extern void SV_DropClient(Game::client_t*, const char*);
+	extern void CM_Trace(float*, float*, float*, int, float*, int, int);
+
+	extern int StuckInClient(Game::gentity_t*);
 }
