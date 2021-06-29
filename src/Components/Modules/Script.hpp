@@ -12,8 +12,12 @@ namespace Components
 	private:
 		static std::unordered_map<std::string, Game::scr_function_t> CustomScrFunctions;
 		static std::unordered_map<std::string, Game::scr_method_t> CustomScrMethods;
+		static std::vector<unsigned int> CustomScrHandles;
 
 		static Game::xmethod_t Player_GetMethod_Hook(const char**);
 		static Game::xfunction_t Scr_GetFunction_Hook(const char**, int*);
+
+		static void GScr_LoadGameTypeScript_Hook();
+		static void G_LoadStructs_Hook();
 	};
 }

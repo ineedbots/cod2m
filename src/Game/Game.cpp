@@ -28,14 +28,19 @@ namespace Game
 
 	bgs_s** bgs_ptr;
 
-
-	Player_GetMethod_t* Player_GetMethod;
+	Scr_LoadScript_t* Scr_LoadScript;
 	Scr_GetFunction_t* Scr_GetFunction;
+	Player_GetMethod_t* Player_GetMethod;
+	GScr_LoadGameTypeScript_t* GScr_LoadGameTypeScript;
+	G_LoadStructs_t* G_LoadStructs;
 		
 	void Init(GAMEEXE)
 	{
 		Player_GetMethod = ASSIGN(Player_GetMethod_t*, 0x52E050);
 		Scr_GetFunction = ASSIGN(Scr_GetFunction_t*, 0x50D280);
+		Scr_LoadScript = ASSIGN(Scr_LoadScript_t*, 0x474D80);
+		GScr_LoadGameTypeScript = ASSIGN(GScr_LoadGameTypeScript_t*, 0x503F90);
+		G_LoadStructs = ASSIGN(G_LoadStructs_t*, 0x5118A0);
 
 
 		cls = ASSIGN(clientStatic_t*, 0x68A408);
@@ -63,6 +68,49 @@ namespace Game
 		scr_const = ASSIGN(stringIndex_t*, 0x1943920);
 
 		bgs_ptr = ASSIGN(bgs_s**, 0x19A1C78);
+	}
+
+	unsigned int Scr_GetFunctionHandle(char* filename, const char* funcHandle)
+	{
+		int func_loc = 0x474950;
+		unsigned int answer;
+
+		__asm
+		{
+			push funcHandle;
+			mov eax, filename;
+			call func_loc;
+			add esp, 4;
+			mov answer, eax;
+		}
+
+		return answer;
+	}
+
+	__int16 Scr_ExecThread(int handle)
+	{
+		int func_loc = 0x482080;
+		__int16 answer;
+
+		__asm
+		{
+			mov eax, handle;
+			call func_loc;
+			mov answer, ax;
+		}
+
+		return answer;
+	}
+
+	void RemoveRefToObject(int obj)
+	{
+		int func_loc = 0x479660;
+
+		__asm
+		{
+			mov eax, obj;
+			call func_loc;
+		}
 	}
 
 	void G_SelectWeaponIndex(int wpIdx, int clNum)

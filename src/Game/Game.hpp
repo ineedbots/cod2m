@@ -32,6 +32,19 @@ namespace Game
 	extern stringIndex_t* scr_const;
 
 	extern bgs_s** bgs_ptr;
+
+	typedef int (Scr_LoadScript_t)(char*);
+	extern Scr_LoadScript_t* Scr_LoadScript;
+
+	typedef void (GScr_LoadGameTypeScript_t)();
+	extern GScr_LoadGameTypeScript_t* GScr_LoadGameTypeScript;
+
+	typedef void (G_LoadStructs_t)();
+	extern G_LoadStructs_t* G_LoadStructs;
+
+	extern unsigned int Scr_GetFunctionHandle(char*, const char*);
+	extern __int16 Scr_ExecThread(int);
+	extern void RemoveRefToObject(int);
 	
 	typedef Game::xmethod_t (Player_GetMethod_t)(const char**);
 	extern Player_GetMethod_t* Player_GetMethod;
