@@ -3,6 +3,50 @@
 
 namespace Components
 {
+	Bots::botMovements Bots::g_botai[MAX_G_BOTAI_ENTRIES];
+
+	const Bots::BotAction_t Bots::bot_actions[] =
+	{
+		{ "fire", KEY_FIRE },
+		{ "attack", KEY_FIRE },
+		{ "sprint", KEY_SPRINT },
+		{ "melee", KEY_MELEE },
+		{ "activate", KEY_USE },
+		{ "use", KEY_USE | KEY_USERELOAD },
+		{ "usereload", KEY_USERELOAD },
+		{ "reload", KEY_RELOAD },
+		{ "leanleft", KEY_LEANLEFT },
+		{ "leanright", KEY_LEANRIGHT },
+		{ "goprone", KEY_PRONE },
+		{ "gocrouch", KEY_CROUCH },
+		{ "gostand", KEY_GOSTAND },
+		{ "ads", KEY_ADSMODE | KEY_ADS },
+		{ "toggleads_throw", KEY_ADSMODE },
+		{ "speed_throw", KEY_ADS },
+		{ "temp", KEY_TEMP },
+		{ "holdbreath", KEY_HOLDBREATH },
+		{ "frag", KEY_FRAG },
+		{ "smoke", KEY_SMOKE },
+		{ "unk", KEY_UNK },
+		{ "unk2", KEY_UNK2 },
+		{ "nightvision", KEY_NIGHTVISION },
+		{ "unk3", KEY_UNK3 },
+		{ "unk4", KEY_UNK4 },
+		{ "menu", KEY_MENU },
+		{ "unk5", KEY_UNK5 },
+		{ "unk6", KEY_UNK6 },
+		{ "unk7", KEY_UNK7 },
+		{ "unk8", KEY_UNK8 },
+		{ "unk9", KEY_UNK9 },
+		{ "unk10", KEY_UNK10 },
+		{ "unk11", KEY_UNK11 },
+		{ "unk12", KEY_UNK12 },
+		{ "unk13", KEY_UNK13 },
+		{ "unk14", KEY_UNK14 }
+	};
+
+	std::vector<std::string> Bots::bot_names;
+
 	const char* Bots::ConnectString = "connect \"\\cg_predictItems\\1\\cl_punkbuster\\0\\cl_anonymous\\0\\color\\4\\head\\default\\model\\multi\\snaps\\20\\"
     "rate\\5000\\name\\%s\\protocol\\%d\"";
 
@@ -25,8 +69,13 @@ namespace Components
 
 		Game::usercmd_t cmd = {};
 		cmd.serverTime = Game::svs->time;
+		cmd.weapon = g_botai[cl_num].weapon;
+		cmd.forwardmove = g_botai[cl_num].forward;
+		cmd.rightmove = g_botai[cl_num].right;
+		cmd.buttons = g_botai[cl_num].buttons;
 
 		cl->deltaMessage = cl->netchan.outgoingSequence - 1;
+		cl->ping = g_botai[cl_num].ping;
 		Game::SV_ClientThink(&cmd, cl);
 	}
 
@@ -43,6 +92,8 @@ namespace Components
 
 	void Bots::G_SelectWeaponIndex_Func(int wpIdx, int clNum)
 	{
+		g_botai[clNum].weapon = static_cast<char>(wpIdx);
+
 		Game::G_SelectWeaponIndex(wpIdx, clNum);
 	}
 
@@ -60,10 +111,7 @@ namespace Components
 
 	void __cdecl Bots::PlayerCmd_setSpawnWeapon_Func(Game::gentity_t* ent, int wpIdx)
 	{
-		if (Game::svs->clients[ent->s.number].bot)
-		{
-			
-		}
+		g_botai[ent->s.number].weapon = static_cast<char>(wpIdx);
 	}
 
 	__declspec(naked) void Bots::PlayerCmd_setSpawnWeapon_Stub()
@@ -85,6 +133,13 @@ namespace Components
 
 	Bots::Bots()
 	{
+		// init the bot commands
+		for (int i = 0; i < MAX_G_BOTAI_ENTRIES; i++)
+		{
+			g_botai[i] = { 0 };
+			g_botai[i].weapon = 1;
+		}
+
 		// intercept the sprintf when creating the bot connect string 
 		Utils::Hook(0x45655B, BuildConnectString, HOOK_CALL).install()->quick();
 
