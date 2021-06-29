@@ -5,6 +5,8 @@
 #include "Modules/HelloWorld.hpp"
 #include "Modules/Logger.hpp"
 #include "Modules/Script.hpp"
+#include "Modules/Player.hpp"
+#include "Modules/Scheduler.hpp"
 
 namespace Components
 {
@@ -41,6 +43,8 @@ namespace Components
 		Loader::Register(new Logger());
 		Loader::Register(new Bots());
 		Loader::Register(new Script());
+		Loader::Register(new Player());
+		Loader::Register(new Scheduler());
 
 		Loader::Pregame = false;
 	}
