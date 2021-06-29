@@ -32,8 +32,13 @@ namespace Game
 	extern stringIndex_t* scr_const;
 
 	extern bgs_s** bgs_ptr;
+	
+	typedef Game::xmethod_t* (Player_GetMethod_t)(const char**);
+	extern Player_GetMethod_t* Player_GetMethod;
 
+	typedef Game::xfunction_t* (Scr_GetFunction_t)(const char**, int*);
+	extern Scr_GetFunction_t* Scr_GetFunction;
 
-	void SV_ClientThink(Game::usercmd_s*, Game::client_t*);
-	void SV_DropClient(Game::client_t*, const char*);
+	extern void SV_ClientThink(Game::usercmd_s*, Game::client_t*);
+	extern void SV_DropClient(Game::client_t*, const char*);
 }

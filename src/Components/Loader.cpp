@@ -4,6 +4,7 @@
 #include "Modules/Flags.hpp"
 #include "Modules/HelloWorld.hpp"
 #include "Modules/Logger.hpp"
+#include "Modules/Script.hpp"
 
 namespace Components
 {
@@ -39,6 +40,7 @@ namespace Components
 		Loader::Register(new HelloWorld());
 		Loader::Register(new Logger());
 		Loader::Register(new Bots());
+		Loader::Register(new Script());
 
 		Loader::Pregame = false;
 	}

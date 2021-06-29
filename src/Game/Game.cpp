@@ -27,9 +27,17 @@ namespace Game
 	stringIndex_t* scr_const;
 
 	bgs_s** bgs_ptr;
+
+
+	Player_GetMethod_t* Player_GetMethod;
+	Scr_GetFunction_t* Scr_GetFunction;
 		
 	void Init(GAMEEXE)
 	{
+		Player_GetMethod = ASSIGN(Player_GetMethod_t*, 0x52E050);
+		Scr_GetFunction = ASSIGN(Scr_GetFunction_t*, 0x50D280);
+
+
 		cls = ASSIGN(clientStatic_t*, 0x68A408);
 		svs = ASSIGN(serverStatic_t*, 0xD35700);
 		sv = ASSIGN(server_t*, 0xCD6180);
