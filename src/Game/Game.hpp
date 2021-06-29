@@ -39,6 +39,7 @@ namespace Game
 	typedef Game::xfunction_t* (Scr_GetFunction_t)(const char**, int*);
 	extern Scr_GetFunction_t* Scr_GetFunction;
 
+	extern void G_SelectWeaponIndex(int, int);
 	extern void SV_ClientThink(Game::usercmd_s*, Game::client_t*);
 	extern void SV_DropClient(Game::client_t*, const char*);
 }

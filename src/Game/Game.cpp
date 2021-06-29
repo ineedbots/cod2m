@@ -65,6 +65,18 @@ namespace Game
 		bgs_ptr = ASSIGN(bgs_s**, 0x19A1C78);
 	}
 
+	void G_SelectWeaponIndex(int wpIdx, int clNum)
+	{
+		int func_loc = 0x5282E0;
+
+		__asm
+		{
+			mov esi, clNum;
+			mov eax, wpIdx;
+			call func_loc;
+		}
+	}
+
 	void SV_ClientThink(Game::usercmd_s* cmd, Game::client_t* client)
 	{
 		int func_loc = 0x456010;

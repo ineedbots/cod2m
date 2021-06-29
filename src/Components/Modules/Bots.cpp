@@ -41,6 +41,44 @@ namespace Components
 		}
 	}
 
+	void Bots::G_SelectWeaponIndex_Func(int wpIdx, int clNum)
+	{
+		Game::G_SelectWeaponIndex(wpIdx, clNum);
+	}
+
+	__declspec(naked) void Bots::G_SelectWeaponIndex_Stub()
+	{
+		__asm
+		{
+			push esi;
+			push eax;
+			call G_SelectWeaponIndex_Func;
+			add esp, 8;
+			retn;
+		}
+	}
+
+	void Bots::PlayerCmd_setSpawnWeapon_Func(Game::gentity_t* ent, int wpIdx)
+	{
+
+	}
+
+	__declspec(naked) void Bots::PlayerCmd_setSpawnWeapon_Stub()
+	{
+		__asm
+		{
+			push edx;
+			push esi;
+			call PlayerCmd_setSpawnWeapon_Func;
+			add esp, 8;
+
+			// go back
+			mov     eax, [esi + 0x158];
+			push 0x52B16C;
+			retn;
+		}
+	}
+
 	Bots::Bots()
 	{
 		// intercept the sprintf when creating the bot connect string 
@@ -51,6 +89,13 @@ namespace Components
 
 		// stop the ping spam
 		Utils::Hook::Nop(0x45BF59, 5);
+
+
+		// fix bots switching weapons
+		Utils::Hook(0x52A1C2, G_SelectWeaponIndex_Stub, HOOK_CALL).install()->quick();
+		Utils::Hook(0x51E2DC, G_SelectWeaponIndex_Stub, HOOK_CALL).install()->quick();
+		Utils::Hook(0x501E0D, G_SelectWeaponIndex_Stub, HOOK_CALL).install()->quick();
+		Utils::Hook(0x52B166, PlayerCmd_setSpawnWeapon_Stub, HOOK_JUMP).install()->quick();
 	}
 
 	Bots::~Bots()
