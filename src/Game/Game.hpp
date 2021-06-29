@@ -33,10 +33,10 @@ namespace Game
 
 	extern bgs_s** bgs_ptr;
 	
-	typedef Game::xmethod_t* (Player_GetMethod_t)(const char**);
+	typedef Game::xmethod_t (Player_GetMethod_t)(const char**);
 	extern Player_GetMethod_t* Player_GetMethod;
 
-	typedef Game::xfunction_t* (Scr_GetFunction_t)(const char**, int*);
+	typedef Game::xfunction_t (Scr_GetFunction_t)(const char**, int*);
 	extern Scr_GetFunction_t* Scr_GetFunction;
 
 	extern void G_SelectWeaponIndex(int, int);
