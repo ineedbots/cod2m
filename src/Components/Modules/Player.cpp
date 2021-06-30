@@ -26,10 +26,12 @@ namespace Components
 		}
 	}
 
-	void Player::CM_Trace_Func(float* a1, float* a2, float* a3, int a4, float* a5, int a6, int a7)
+	void Player::CM_Trace_Func(float* a1, float* a2, float* a3, int a4, float* a5, int a6, int contentmask)
 	{
-		if (g_playerCollision->current.boolean)
-			Game::CM_Trace(a1, a2, a3, a4, a5, a6, a7);
+		if (!g_playerCollision->current.boolean)
+			contentmask &= ~0x2000000; // remove the CONTENT_BODY bit
+
+		Game::CM_Trace(a1, a2, a3, a4, a5, a6, contentmask);
 	}
 
 	__declspec(naked) void Player::CM_Trace_Stub()
