@@ -1,5 +1,6 @@
 #include "STDInclude.hpp"
 #include "Bots.hpp"
+#include "Script.hpp"
 
 namespace Components
 {
@@ -9,7 +10,6 @@ namespace Components
 	{
 		{ "fire", KEY_FIRE },
 		{ "attack", KEY_FIRE },
-		{ "sprint", KEY_SPRINT },
 		{ "melee", KEY_MELEE },
 		{ "activate", KEY_USE },
 		{ "use", KEY_USE | KEY_USERELOAD },
@@ -23,13 +23,11 @@ namespace Components
 		{ "ads", KEY_ADSMODE | KEY_ADS },
 		{ "toggleads_throw", KEY_ADSMODE },
 		{ "speed_throw", KEY_ADS },
-		{ "temp", KEY_TEMP },
 		{ "holdbreath", KEY_HOLDBREATH },
 		{ "frag", KEY_FRAG },
 		{ "smoke", KEY_SMOKE },
 		{ "unk", KEY_UNK },
 		{ "unk2", KEY_UNK2 },
-		{ "nightvision", KEY_NIGHTVISION },
 		{ "unk3", KEY_UNK3 },
 		{ "unk4", KEY_UNK4 },
 		{ "menu", KEY_MENU },
@@ -42,7 +40,10 @@ namespace Components
 		{ "unk11", KEY_UNK11 },
 		{ "unk12", KEY_UNK12 },
 		{ "unk13", KEY_UNK13 },
-		{ "unk14", KEY_UNK14 }
+		{ "unk14", KEY_UNK14 },
+		{ "unk15", KEY_UNK15 },
+		{ "unk16", KEY_UNK16 },
+		{ "unk17", KEY_UNK17 }
 	};
 
 	std::vector<std::string> Bots::bot_names;
@@ -155,6 +156,51 @@ namespace Components
 		Utils::Hook(0x51E2DC, G_SelectWeaponIndex_Stub, HOOK_CALL).install()->quick();
 		Utils::Hook(0x501E0D, G_SelectWeaponIndex_Stub, HOOK_CALL).install()->quick();
 		Utils::Hook(0x52B166, PlayerCmd_setSpawnWeapon_Stub, HOOK_JUMP).install()->quick();
+
+
+		Script::AddMethod("botaction", [](Game::scr_entref_t ent)
+		{
+			const char* action = Game::Scr_GetString(0);
+
+			for (size_t i = 0; i < sizeof(bot_actions) / sizeof(BotAction_t); ++i)
+			{
+				if (strcmp(&action[1], bot_actions[i].action))
+				{
+					continue;
+				}
+
+				if (action[0] == '+')
+				{
+					g_botai[ent].buttons |= bot_actions[i].key;
+				}
+				else
+				{
+					g_botai[ent].buttons &= ~(bot_actions[i].key);
+				}
+
+				return;
+			}
+		});
+
+		Script::AddMethod("botmovement", [](Game::scr_entref_t ent)
+		{
+			int forward = Game::Scr_GetInt(0);
+			int right = Game::Scr_GetInt(1);
+
+			forward = std::clamp(forward, -128, 127);
+			right = std::clamp(right, -128, 127);
+
+			g_botai[ent].forward = static_cast<char>(forward);
+			g_botai[ent].right = static_cast<char>(right);
+		});
+
+		Script::AddMethod("botstop", [](Game::scr_entref_t ent)
+		{
+			g_botai[ent].buttons = 0;
+			g_botai[ent].forward = 0;
+			g_botai[ent].right = 0;
+			g_botai[ent].weapon = 1;
+		});
 	}
 
 	Bots::~Bots()

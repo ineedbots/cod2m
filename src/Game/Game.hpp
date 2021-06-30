@@ -67,6 +67,22 @@ namespace Game
 	typedef Game::xfunction_t (Scr_GetFunction_t)(const char**, int*);
 	extern Scr_GetFunction_t* Scr_GetFunction;
 
+	typedef void (Cmd_AddCommand_t)(const char*, Game::xcommand_t);
+	extern Cmd_AddCommand_t* Cmd_AddCommand;
+	
+	typedef void (Cmd_FindCommand_t)(const char*);
+	extern Cmd_FindCommand_t* Cmd_FindCommand;
+
+	//VariableValue *__cdecl sub_483580(union VariableUnion a1) addint
+	//int __usercall sub_483770@<eax>(char *a2@<esi>) addstring
+	//VariableValue *__cdecl sub_4835D0(float a1) addfloat
+	//_DWORD *__usercall Scr_AddVector@<eax>(_DWORD *a2@<esi>) 4838B0
+
+	//double __usercall sub_482DB0@<st0>(unsigned int a1@<eax>) getfloat
+	//char __usercall sub_483160@<al>(unsigned int a1@<eax>, _DWORD *a2@<edx>) get vector
+
+	extern const char* Scr_GetString(unsigned int);
+	extern int Scr_GetInt(unsigned int);
 	extern void G_SelectWeaponIndex(int, int);
 	extern void SV_ClientThink(Game::usercmd_s*, Game::client_t*);
 	extern void SV_DropClient(Game::client_t*, const char*);

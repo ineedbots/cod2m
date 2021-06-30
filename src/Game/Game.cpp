@@ -37,6 +37,8 @@ namespace Game
 	Com_Printf_t* Com_Printf;
 	Com_DedicatedModified_t* Com_DedicatedModified;
 	Dvar_RegisterBool_t* Dvar_RegisterBool;
+	Cmd_AddCommand_t* Cmd_AddCommand;
+	Cmd_FindCommand_t* Cmd_FindCommand;
 
 
 	char* isDvarSystemActive;
@@ -57,6 +59,8 @@ namespace Game
 		Com_Printf = ASSIGN(Com_Printf_t*, 0x431EE0);
 		Com_DedicatedModified = ASSIGN(Com_DedicatedModified_t*, 0x434DC0);
 		Dvar_RegisterBool = ASSIGN(Dvar_RegisterBool_t*, 0x438040);
+		Cmd_AddCommand = ASSIGN(Cmd_AddCommand_t*, 0x4212F0);
+		Cmd_FindCommand = ASSIGN(Cmd_FindCommand_t*, 0x421290);
 
 
 		isDvarSystemActive = ASSIGN(char*, 0xC5C5C8);
@@ -129,6 +133,36 @@ namespace Game
 			mov eax, obj;
 			call func_loc;
 		}
+	}
+
+	const char* Scr_GetString(unsigned int slot)
+	{
+		int func_loc = 0x482FF0;
+		const char* answer;
+
+		__asm
+		{
+			mov eax, slot;
+			call func_loc;
+			mov answer, eax;
+		}
+
+		return answer;
+	}
+
+	int Scr_GetInt(unsigned int slot)
+	{
+		int func_loc = 0x482B80;
+		int answer;
+
+		__asm
+		{
+			mov eax, slot;
+			call func_loc;
+			mov answer, eax;
+		}
+
+		return answer;
 	}
 
 	void G_SelectWeaponIndex(int wpIdx, int clNum)

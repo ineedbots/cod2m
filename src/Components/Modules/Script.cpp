@@ -65,7 +65,6 @@ namespace Components
 		// load custom scripts
 		Utils::Hook(0x4FC75F, G_LoadStructs_Hook, HOOK_CALL).install()->quick();
 		Utils::Hook(0x5043FA, GScr_LoadGameTypeScript_Hook, HOOK_CALL).install()->quick();
-
 	}
 
 	Script::~Script()
