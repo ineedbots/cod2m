@@ -58,7 +58,7 @@ namespace Game
 	extern Dvar_RegisterBool_t* Dvar_RegisterBool;
 
 	extern unsigned int Scr_GetFunctionHandle(const char*, const char*);
-	extern __int16 Scr_ExecThread(int);
+	extern __int16 Scr_ExecThread(int, int);
 	extern void RemoveRefToObject(int);
 	
 	typedef Game::xmethod_t (Player_GetMethod_t)(const char**);
@@ -80,6 +80,9 @@ namespace Game
 
 	//double __usercall sub_482DB0@<st0>(unsigned int a1@<eax>) getfloat
 	//char __usercall sub_483160@<al>(unsigned int a1@<eax>, _DWORD *a2@<edx>) get vector
+
+	extern int FS_GetFileList(const char*, const char*, int, char*, size_t);
+	extern int FS_ForEachFile(const char*, const char*, void(char*));
 
 	extern const char* Scr_GetString(unsigned int);
 	extern int Scr_GetInt(unsigned int);

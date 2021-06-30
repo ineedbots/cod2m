@@ -92,7 +92,7 @@ namespace Game
 		bgs_ptr = ASSIGN(bgs_s**, 0x19A1C78);
 	}
 
-	unsigned int Scr_GetFunctionHandle(char* filename, const char* funcHandle)
+	unsigned int Scr_GetFunctionHandle(const char* filename, const char* funcHandle)
 	{
 		int func_loc = 0x474950;
 		unsigned int answer;
@@ -109,15 +109,17 @@ namespace Game
 		return answer;
 	}
 
-	__int16 Scr_ExecThread(int handle)
+	__int16 Scr_ExecThread(int handle, int numParam)
 	{
 		int func_loc = 0x482080;
 		__int16 answer;
 
 		__asm
 		{
+			push numParam;
 			mov eax, handle;
 			call func_loc;
+			add esp, 4;
 			mov answer, ax;
 		}
 
@@ -133,6 +135,42 @@ namespace Game
 			mov eax, obj;
 			call func_loc;
 		}
+	}
+
+	int FS_ForEachFile(const char* folder, const char* extention, void(callback)(char*))
+	{
+		char buff[0x4000];
+		int numberFiles = FS_GetFileList(folder, extention, 1, buff, 0x4000);
+		int cursor = 0;
+
+		for (int i = 0; i < numberFiles; i++)
+		{
+			callback(buff + cursor);
+
+			cursor += strlen(buff + cursor) + 1;
+		}
+
+		return numberFiles;
+	}
+
+	int FS_GetFileList(const char* folder, const char* ext, int flags, char* buff, size_t _size)
+	{
+		int func_loc = 0x424230;
+		int answer;
+
+		__asm
+		{
+			push _size;
+			push buff;
+			push flags;
+			push ext;
+			mov eax, folder;
+			call func_loc;
+			add esp, 0x10;
+			mov answer, eax;
+		}
+
+		return answer;
 	}
 
 	const char* Scr_GetString(unsigned int slot)

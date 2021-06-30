@@ -35,16 +35,6 @@ namespace Components
 		return got->second.call;
 	}
 
-	void Script::GScr_LoadGameTypeScript_Hook()
-	{
-		Game::GScr_LoadGameTypeScript();
-	}
-
-	void Script::G_LoadStructs_Hook()
-	{
-		Game::G_LoadStructs();
-	}
-
 	Game::xfunction_t Script::Scr_GetFunction_Hook(const char** name, int* isDev)
 	{
 		auto got = CustomScrFunctions.find(*name);
@@ -54,6 +44,55 @@ namespace Components
 
 		*isDev = got->second.developer;
 		return got->second.call;
+	}
+
+	void Script::GScr_LoadGameTypeScript_Hook()
+	{
+		CustomScrHandles.clear();
+
+		Game::FS_ForEachFile("scripts", "gsc", [](char* filename)
+		{
+			std::string file = filename;
+			std::string label = "init";
+
+			file = "scripts/" + file;
+
+			if (Utils::String::EndsWith(file, ".gsc"))
+				file = file.substr(0, file.size() - 4);
+
+			Game::Com_Printf("Loading script %s.gsc...\n", file.data());
+
+			if (!Game::Scr_LoadScript(file.data()))
+			{
+				Game::Com_Printf("Script %s encountered an error while loading. (doesn't exist?)", file.data());
+				return;
+			}
+
+			Game::Com_Printf("Script %s.gsc loaded successfully.\n", file.data());
+			Game::Com_Printf("Finding script handle %s::%s...\n", file.data(), label.data());
+
+			unsigned int handle = Game::Scr_GetFunctionHandle(file.data(), label.data());
+			if (!handle)
+			{
+				Game::Com_Printf("Script handle %s::%s couldn't be loaded. (file with no entry point?)\n", file.data(), label.data());
+				return;
+			}
+			
+			CustomScrHandles.push_back(handle);
+			Game::Com_Printf("Script handle %s::%s loaded successfully.\n", file.data(), label.data());
+		});
+
+		Game::GScr_LoadGameTypeScript();
+	}
+
+	void Script::G_LoadStructs_Hook()
+	{
+		for (auto handle : CustomScrHandles)
+		{
+			Game::RemoveRefToObject(Game::Scr_ExecThread(handle, 0));
+		}
+
+		Game::G_LoadStructs();
 	}
 
 	Script::Script()
