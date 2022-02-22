@@ -7,7 +7,12 @@ namespace Game
     typedef vec_t vec2_t[2];
     typedef vec_t vec4_t[4];
     typedef vec_t vec5_t[5];
-    typedef int scr_entref_t;
+
+    struct scr_entref_t
+    {
+        unsigned __int16 entnum;
+        unsigned __int16 classnum;
+    };
 
     struct turretInfo_s
     {

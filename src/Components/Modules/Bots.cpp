@@ -61,10 +61,8 @@ namespace Components
 	{
 		int cl_num = cl - Game::svs->clients;
 
-		if (cl->state < Game::CS_ACTIVE)
+		if (cl->gentity == nullptr)
 		{
-			Game::SV_DropClient(cl, "EXE_DISCONNECTED");
-			cl->state = Game::CS_FREE;
 			return;
 		}
 
@@ -126,7 +124,7 @@ namespace Components
 			pop edx; // __cdecl reqires edx be caller saved
 
 			// go back
-			mov     eax, [esi + 0x158];
+			mov eax, [esi + 0x158];
 			push 0x52B16C;
 			retn;
 		}
@@ -135,7 +133,7 @@ namespace Components
 	Bots::Bots()
 	{
 		// init the bot commands
-		for (int i = 0; i < MAX_G_BOTAI_ENTRIES; i++)
+		for (int i = 0; i < std::extent_v<decltype(g_botai)>; i++)
 		{
 			g_botai[i] = { 0 };
 			g_botai[i].weapon = 1;
@@ -162,7 +160,7 @@ namespace Components
 		{
 			const char* action = Game::Scr_GetString(0);
 
-			for (size_t i = 0; i < sizeof(bot_actions) / sizeof(BotAction_t); ++i)
+			for (size_t i = 0; i < std::extent_v<decltype(bot_actions)>; ++i)
 			{
 				if (strcmp(&action[1], bot_actions[i].action))
 				{
@@ -171,11 +169,11 @@ namespace Components
 
 				if (action[0] == '+')
 				{
-					g_botai[ent].buttons |= bot_actions[i].key;
+					g_botai[ent.entnum].buttons |= bot_actions[i].key;
 				}
 				else
 				{
-					g_botai[ent].buttons &= ~(bot_actions[i].key);
+					g_botai[ent.entnum].buttons &= ~(bot_actions[i].key);
 				}
 
 				return;
@@ -187,19 +185,19 @@ namespace Components
 			int forward = Game::Scr_GetInt(0);
 			int right = Game::Scr_GetInt(1);
 
-			forward = std::clamp(forward, -128, 127);
-			right = std::clamp(right, -128, 127);
+			forward = std::clamp<int>(forward, std::numeric_limits<char>::min(), std::numeric_limits<char>::max());
+			right = std::clamp<int>(right, std::numeric_limits<char>::min(), std::numeric_limits<char>::max());
 
-			g_botai[ent].forward = static_cast<char>(forward);
-			g_botai[ent].right = static_cast<char>(right);
+			g_botai[ent.entnum].forward = static_cast<char>(forward);
+			g_botai[ent.entnum].right = static_cast<char>(right);
 		});
 
 		Script::AddMethod("botstop", [](Game::scr_entref_t ent)
 		{
-			g_botai[ent].buttons = 0;
-			g_botai[ent].forward = 0;
-			g_botai[ent].right = 0;
-			g_botai[ent].weapon = 1;
+			g_botai[ent.entnum].buttons = 0;
+			g_botai[ent.entnum].forward = 0;
+			g_botai[ent.entnum].right = 0;
+			g_botai[ent.entnum].weapon = 1;
 		});
 	}
 
