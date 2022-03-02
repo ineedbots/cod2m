@@ -19,16 +19,16 @@ namespace Components
 	{
 		__asm
 		{
-			push eax
-			pushad
+			push eax;
+			pushad;
 
 			push eax;
 			call StuckInClient_Func;
 			add esp, 4;
 
-			mov [esp + 20h], eax
-			popad
-			pop eax
+			mov [esp + 20h], eax;
+			popad;
+			pop eax;
 
 			retn;
 		}
