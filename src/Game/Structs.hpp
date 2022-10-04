@@ -812,9 +812,9 @@ namespace Game
 
     typedef int fileHandle_t;
 
-    typedef void (__stdcall *xfunction_t)();
+    typedef void (__cdecl *xfunction_t)();
 
-    typedef void (__stdcall *xmethod_t)(scr_entref_t);
+    typedef void (__cdecl *xmethod_t)(scr_entref_t);
 
     typedef void (*xcommand_t)(void);
 

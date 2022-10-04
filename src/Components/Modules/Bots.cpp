@@ -157,6 +157,10 @@ namespace Components
 		Utils::Hook(0x501E0D, G_SelectWeaponIndex_Stub, HOOK_CALL).install()->quick();
 		Utils::Hook(0x52B166, PlayerCmd_setSpawnWeapon_Stub, HOOK_JUMP).install()->quick();
 
+		Script::AddMethod("isbot", [](Game::scr_entref_t ent)
+		{
+			Game::Scr_AddInt(Game::svs->clients[ent].bot);
+		});
 
 		Script::AddMethod("botaction", [](Game::scr_entref_t ent)
 		{

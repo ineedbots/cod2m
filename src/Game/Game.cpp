@@ -203,6 +203,18 @@ namespace Game
 		return answer;
 	}
 
+	void Scr_AddInt(int num)
+	{
+		int func_loc = 0x483580;
+
+		__asm
+		{
+			push num;
+			call func_loc;
+			add esp, 4;
+		}
+	}
+
 	void G_SelectWeaponIndex(int wpIdx, int clNum)
 	{
 		int func_loc = 0x5282E0;
